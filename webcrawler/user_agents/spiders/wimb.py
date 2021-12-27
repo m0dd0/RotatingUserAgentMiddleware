@@ -11,29 +11,24 @@ class WimbSpider(scrapy.Spider):
 
     def __init__(
         self,
-        wanted_os: List = None,
+        wanted_oss: List = None,
         wanted_softwares: List = None,
         pages: int = 10,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(**kwargs)
-
-        self.wanted_os = wanted_os
+        self.wanted_oss = wanted_oss
+        if self.wanted_oss is not None:
+            self.wanted_oss = self.wanted_oss.lower().strip().split(",")
         self.wanted_softwares = wanted_softwares
-        if pages > 10:
+        if self.wanted_softwares is not None:
+            self.wanted_softwares = self.wanted_softwares.lower().strip().split(",")
+
+        self.pages_left = int(pages)
+        if self.pages_left > 10:
             self.logger.warning(
-                "The maximum number of pages for user agent lookups is 10."
+                f"The maximum number of pages for user agent lookups is 10. You provided {self.pages_left}."
             )
-        self.pages_left = pages
-
-    def _check_desired(self, to_check: str, allowed: List):
-        if not allowed:
-            return True
-
-        for allowed_str in allowed:
-            if allowed_str in to_check.lower():
-                return True
-        return False
 
     def parse(self, response: HtmlResponse):
         self.pages_left -= 1
@@ -45,14 +40,22 @@ class WimbSpider(scrapy.Spider):
         for row_ in table_.css("tr")[1:]:
             cols_ = row_.css("td")
             user_agent_string = cols_[0].css("a::text").get()
-            software = cols_[1].css("::text").get()
-            os = cols_[2].css("::text").get()
+            software = cols_[1].css("::text").get().strip().lower()
+            os = cols_[2].css("::text").get().strip().lower()
             # layout_engine = cols_[3].css("::text").get()
 
-            if self._check_desired(
-                software, self.wanted_softwares
-            ) and self._check_desired(os, self.wanted_os):
-                yield {"": user_agent_string}
+            wanted = True
+            if self.wanted_softwares:
+                wanted = software in self.wanted_softwares
+            if self.wanted_oss:
+                wanted = os in self.wanted_oss
+
+            if wanted:
+                yield {
+                    "software": software,
+                    "os": os,
+                    "user_agent_string": user_agent_string,
+                }
 
         if self.pages_left > 0:
             # it is simpler to generate the next url like this instead of using a
