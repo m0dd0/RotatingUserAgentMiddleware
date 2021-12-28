@@ -25,8 +25,11 @@ form of [{'os': ..., 'software': ..., 'user_agent_string': ...}, ...].
 This repository also contains a simple crawler which gets you a list of popular useragents
 from `https://developers.whatismybrowser.com/useragents/explore/software_type_specific/web-browser/1` and the following pages.
 You can filter the user agents which are scraped by passing the following arguments:
+
 `wanted_oss`: A list of strings (passed as single string seperated by commas) which the OS column must contain 
+
 `wanted_softwares`: A list of strings (passed as single string seperated by commas) which the software column must contain 
+
 `pages`: The number of pages which are used to get user_agents.
 
 ## Related projects
