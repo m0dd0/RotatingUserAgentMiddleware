@@ -1,0 +1,29 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "scrapy crawl",
+      "type": "python",
+      "request": "launch",
+      "module": "scrapy",
+      "args": [
+        "crawl",
+        "wimb",
+        "-o",
+        "useragents.json",
+        "-a",
+        "wanted_oss=ios,windows",
+        "-a",
+        "wanted_softwares=chrome,firefox",
+        "-a",
+        "pages=5"
+      ],
+      "cwd": "${workspaceFolder}/webcrawler",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    }
+  ]
+}

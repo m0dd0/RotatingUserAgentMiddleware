@@ -46,9 +46,9 @@ class WimbSpider(scrapy.Spider):
 
             wanted = True
             if self.wanted_softwares:
-                wanted = software in self.wanted_softwares
+                wanted = wanted and any(s in software for s in self.wanted_softwares)
             if self.wanted_oss:
-                wanted = os in self.wanted_oss
+                wanted = wanted and any(o in os for o in self.wanted_oss)
 
             if wanted:
                 yield {
