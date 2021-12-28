@@ -5,7 +5,7 @@ import json
 from scrapy import signals
 
 
-class UserAgentMiddleware:
+class RotatingUserAgentMiddleware:
     """This middleware allows spiders to override the user_agent"""
 
     def __init__(self, user_agents, shuffle):
