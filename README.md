@@ -8,7 +8,7 @@ Dowloader middleware for scrapy to allow rotating user agent strings.
 ``` 
 DOWNLOADER_MIDDLEWARES = {
     "scrapy.downloadermiddlewares.useragent.UserAgentMiddleware": None,
-    "ebk.middlewares.RotatingUserAgentsMiddleware": 500,
+    "<your_crawler_name>.middlewares.RotatingUserAgentsMiddleware": 500,
 }
 ROTATING_USER_AGENTS = ["user_agent_1", "user_agent_2", "user_agent_3", "user_agent_4"]
 ROTATING_USER_AGENTS_SHUFFLE = False
